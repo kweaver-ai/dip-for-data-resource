@@ -1,4 +1,4 @@
-FROM acr.xxx.cn/public/ubuntu:22.04.20230316
+FROM golang:1.24.11
 
 COPY app /opt/af/
 

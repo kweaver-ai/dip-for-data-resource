@@ -1,6 +1,7 @@
 # DIP for Data Resource
 
-[中文版本](README_CN.md)
+## Language Selection
+[English](./README.md) | [中文](README_CN.md)
 
 ## Project Overview
 

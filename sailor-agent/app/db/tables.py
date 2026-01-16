@@ -71,24 +71,6 @@ def get_engine():
             host=host,
             dbschema=database
         )
-        # url = URL(
-        #     "dm+dmPython",
-        #     host=host.split(":")[0],
-        #     port=int(host.split(":")[1]),
-        #     username=user,
-        #     password=passwd,
-        #     database=database,
-        #     query={
-        #         "schema":  database,
-        #         "charset": "utf8",
-        #         "binary_prefix": True
-        #     }
-        # )
-        # kwargs = {
-        #     "pool_size": 20,
-        #     "pool_pre_ping": True,
-        #     "max_overflow": 0
-        # }
     else:
 
         sqlalchemy_database_uri = 'mysql+pymysql://{user}:{passwd}@{host}/{database}?charset=utf8'.format(

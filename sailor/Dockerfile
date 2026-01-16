@@ -1,9 +1,9 @@
-FROM acr.xxx.cn/ad/library/py:3.11-20240513
+FROM python:3.11
 WORKDIR /home/app
 
 ADD . /home/app
 ADD ./requirements.txt /tmp/
-#RUN pip install data/sdks/anydata_sdk-0.0.1-py3-none-any.whl &&  \
+
 RUN  pip install --no-cache-dir -r /tmp/requirements.txt; \
     \
     rm -rf /tmp/*;
