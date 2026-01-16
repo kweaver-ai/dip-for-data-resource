@@ -1,0 +1,55 @@
+{
+  "input_type": [
+    {
+      "name": "query",
+      "type": "dict"
+    }
+  ],
+  "nodes": [
+    {
+      "name": "RecommendCodeDAG",
+      "type": "DAG",
+      "props": [
+        {
+          "name": "RecommendCodeExecutor",
+          "props": {
+            "graph_id": "134",
+            "min_score": 1.75,
+            "top_n": 20,
+            "required_resource": {
+              "model": {
+                "model_url": "http://10.4.117.180:6483/api/model-service/m3e/v1/embedding"
+              }
+            }
+          },
+          "upstream_links": [
+            {
+              "current_input": "query",
+              "upstream_node": "_DAG",
+              "upstream_node_output": "query"
+            },
+            {
+              "current_input": "kg_list",
+              "upstream_node": "_DAG",
+              "upstream_node_output": "kg_list"
+            }
+          ]
+        }
+      ],
+      "input_type": [
+        {
+          "name": "query",
+          "type": "dict"
+        }
+      ],
+      "outputs": [
+        {
+          "current_output": "graph_recommend_answer_list",
+          "upstream_node": "RecommendCodeExecutor",
+          "upstream_node_output": "answers"
+        }
+      ],
+      "upstream_links": []
+    }
+  ]
+}

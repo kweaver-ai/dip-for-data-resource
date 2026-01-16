@@ -1,0 +1,181 @@
+# 名称空间，服务都要在同一个空间。
+namespace: anyshare
+name: af-sailor-service
+
+labels:
+  app: af-sailor-service-pod
+
+replicaCount: 1
+
+image:
+  registry: acr.xxx.cn
+  repository: af/af-sailor-service
+  tag: "1.0.0-feature-467763"
+  pullPolicy: IfNotPresent
+
+configPath: /etc/af
+
+resources:
+  requests:
+    cpu: 0.1
+    memory: 256Mi
+  limits:
+    cpu: 1
+    memory: 512Mi
+
+nodeSelector: []
+
+service:
+  name: af-sailor-service
+  type: ClusterIP
+  port: 80
+  oauthClientID: "109be1e1-72c0-4137-8484-813b14be5e21"
+  oauthClientSecret: "Si4iZL.ZZ1JO"
+  telemetry:
+    log:
+      enabled: true
+      endpoint: "http://feed-ingester-service:13031/api/feed_ingester/v1/jobs/job-4d42d761dbf0ea95/events  "
+      level: "info"
+    trace:
+      enabled: true
+      endpoint: "http://feed-ingester-service:13031/api/feed_ingester/v1/jobs/job-a2491f67d02e482c/events"
+
+
+apiPathPrefix: /api/af-sailor-service
+
+configMap:
+  name: af-sailor-service
+
+ports:
+  server:
+    name: http
+    ip: 0.0.0.0
+  doc:
+    name: doc-http
+    port: 8081
+    ip: 0.0.0.0
+
+sys:
+  mode: debug
+
+log:
+  stdLogName: af_sailor_service
+  httpLogName: af_sailor_service_request
+
+depServices:
+  class-443:
+    ingressClass: class-443
+  rds:
+    type: mysql
+    host: mariadb-mariadb-master.resource
+    port: 3330
+    user: anyshare
+    password: xxx
+    database: af_cognitive_assistant
+    debug: true
+    tablePrefix: t_
+  redis:
+    addr: proton-redis-proton-redis-sentinel.resource:26379
+    clientName: af.cognitive-assistant
+    db: 3
+    password: xxx
+    sentinelPassword: xxx
+    maxRetries: 3
+    minRetryBackoff: 8
+    maxRetryBackoff: 512
+    dialTimeout: 5000
+    readTimeout: 3000
+    writeTimeout: 3000
+    poolSize: 10
+    poolTimeout: 4000
+    minIdleConns: 3
+    maxIdleConns: 10
+    connMaxIdleTime: 10
+    connMaxLifetime: 60
+    masterName: mymaster
+  configCenter:
+    schema: http
+    host: configuration-center
+    port: 8133
+  virtualizationEngine:
+    protocol: http
+    host: af-vega-gateway
+    port: 8099
+  bigModel:
+    schema: http
+    host: 10.4.133.127
+    port: 8083
+  openAI:
+    apiKey: appid
+    url: http://anydata.com
+    apiVersion: 3.0.1.0
+    apiType: anydata
+  anyDataConf:
+    protocol: https
+    host: 10.4.105.234
+    port: 8444
+    accountType: username
+    user: test
+    password: xxx
+    adVersion: 3.0.0.6
+    graphScheduledCron: 0 0 * * *
+    afRdsOldDatasourceId: 9
+    afRdsAddress: mariadb-mariadb-master.resource
+    afRdsPort: 3330
+    afRdsUser: anyshare
+    afRdsPassword: xxx
+    afRdsDb: af_cognitive_assistant
+  hydraService:
+    schema: http
+    host: hydra-admin
+    port: 4445
+  anyDataRec:
+    schema: http
+    host: 127.0.0.1
+    port: 7000
+  afSailor:
+    schema: http
+    host: af-sailor
+    port: 9797
+  afSailorAgent:
+    schema: http
+    host: af-sailor-agent
+    port: 9595
+  userMgmPrivate:
+    schema: http
+    host: user-management-private
+    port: 30980
+  metaDataMgm:
+    schema: http
+    host: af-vega-metadata
+    port: 80
+  authService:
+    schema: http
+    host: auth-service
+    port: 8155
+  basicSearch:
+    schema: http
+    host: basic-search
+    port: 8163
+  kafkaConf:
+    version: 2.3.1
+    uri: kafka-headless.resource:9097
+    clientId: af.sailor-service
+    username: kafkaclient
+    password: xxx
+    groupId: af.sailor-service
+
+databaseMigrate:
+  source: file:///opt/af/migration
+
+knowledgeNetwork:
+  datasource:
+    oldDatasourceId: 9
+    address: mariadb-mariadb-master.resource
+    port: 3330
+    user: anyshare
+    password: xxx
+    db: af_cognitive_assistant
+
+
+staticPath: /opt/af/static

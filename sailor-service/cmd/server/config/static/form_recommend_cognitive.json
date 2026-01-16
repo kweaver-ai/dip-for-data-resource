@@ -1,0 +1,45 @@
+{
+  "input_type": [
+    {
+      "name": "af_query",
+      "type": "dict"
+    }
+  ],
+  "nodes": [
+    {
+      "type": "DAG",
+      "name": "RecommdedDAG",
+      "input_type": [
+        {
+          "name": "af_query",
+          "type": "dict"
+        }
+      ],
+      "props": [
+        {
+          "name": "RecommedTableExecutor",
+          "upstream_links": [
+            {
+              "current_input": "af_query",
+              "upstream_node": "_DAG",
+              "upstream_node_output": "af_query"
+            }
+          ],
+          "props": {
+            "entity_url": "http://10.4.117.180:6000/extract/entity",
+            "event_url": "http://10.4.117.180:6000/extract/entity",
+            "graph_id": "134"
+          }
+        }
+      ],
+      "upstream_links": [],
+      "outputs": [
+        {
+          "current_output": "graph_recommend_answer_list",
+          "upstream_node": "RecommedTableExecutor",
+          "upstream_node_output": "answers"
+        }
+      ]
+    }
+  ]
+}

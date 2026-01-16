@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.name }}-cm
+  namespace: {{ .Values.namespace }}
+data:
+  {{- with .Values }}
+  MYSQL_HOST: "{{ .depServices.rds.host}}:{{ .depServices.rds.port}}"
+  MYSQL_USERNAME: {{ .depServices.rds.user | quote }}
+  MYSQL_PASSWORD: {{ .depServices.rds.password | quote }}
+  MYSQL_DB: {{ .depServices.rds.database | quote }}
+  TRACE_ENABLED: {{.service.telemetry.trace.enabled| quote }}
+  TRACE_URL: {{.service.telemetry.trace.endpoint | quote }}
+  LOG_LEVEL: {{.service.telemetry.log.level | quote }}
+  LOG_URL: {{.service.telemetry.log.endpoint | quote }}
+  SERVER_NAME: {{.service.name | quote }}
+  SERVER_VERSION: {{.service.version | quote }}
+  OPENSEARCH_HOST: {{ .depServices.opensearch.host | quote}}
+  OPENSEARCHREAD: {{ .depServices.opensearch.read | quote}}
+  OPENSEARCHWRITE: {{ .depServices.opensearch.write | quote}}
+  OPENSEARCH_PORT: {{ quote .depServices.opensearch.port }}
+  OPENSEARCH_USER: {{ .depServices.opensearch.user | quote}}
+  OPENSEARCH_PASS: {{ .depServices.opensearch.password | quote}}
+
+  AD_OPENSEARCH_HOST: {{ .depServices.ad_opensearch.host | quote}}
+  AD_OPENSEARCHREAD: {{ .depServices.ad_opensearch.read | quote}}
+  AD_OPENSEARCHWRITE: {{ .depServices.ad_opensearch.write | quote}}
+  AD_OPENSEARCH_PORT: {{ quote .depServices.ad_opensearch.port }}
+  AD_OPENSEARCH_USER: {{ .depServices.ad_opensearch.user | quote}}
+  AD_OPENSEARCH_PASS: {{ .depServices.ad_opensearch.password | quote}}
+
+  AD_GATEWAY_URL: {{ .depServices.anyDataConf.protocol}}://{{ .depServices.anyDataConf.host}}:{{ .depServices.anyDataConf.port}}
+  AD_GATEWAY_ACCOUNT_TYPE: {{ .depServices.anyDataConf.accountType  | quote}}
+  AD_GATEWAY_USER: {{ .depServices.anyDataConf.user  | quote}}
+  AD_GATEWAY_PASSWORD: {{ .depServices.anyDataConf.password  | quote}}
+  AD_VERSION: {{ .depServices.anyDataConf.adVersion  | quote}}
+
+  ML_EMBEDDING_URL: {{ .depServices.anyDataLLMConf.embedding_llm_addr | quote}}
+  LLM_NAME: {{ .depServices.anyDataLLMConf.llm_name | quote}}
+  TABLE_COMPLETION_LLM_NAME:  {{ .depServices.anyDataLLMConf.table_completion_llm_name | quote}}
+  RECOMMEND_LLM_NAME:  {{ .depServices.anyDataLLMConf.recommend_llm_name | quote}}
+  KAFKA_MQ_HOST: "{{ .depServices.mq.Host}}:{{ .depServices.mq.Port}}"
+  KAFKA_MQ_USENAME: "{{ .depServices.mq.auth.username}}"
+  KAFKA_MQ_PASSWORD: "{{ .depServices.mq.auth.password}}"
+  KAFKA_MQ_MECHANISM: {{ .depServices.mq.auth.mechanism}}
+  {{- end }}
+  {{- with .Values.depServices.redis }}
+  REDIS_MASTER_NAME: {{ .connectInfo.masterGroupName | quote }}
+  REDIS_USER_NAME: {{ .connectInfo.username | quote }}
+  REDIS_PASSWORD: {{ .connectInfo.password | quote }}
+  REDIS_SENTINEL_HOST: {{ .connectInfo.sentinelHost | quote }}
+  REDIS_SENTINEL_PORT: {{ .connectInfo.sentinelPort | quote }}
+  REDIS_SENTINEL_USER_NAME: {{ .connectInfo.sentinelUsername | quote }}
+  REDIS_SENTINEL_PASSWORD: {{ .connectInfo.sentinelPassword | quote }}
+  REDIS_CONNECT_TYPE: {{ .connectType | quote }}
+  REDIS_DB: {{ .database | quote }}
+  {{- end }}

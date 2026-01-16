@@ -1,0 +1,294 @@
+server:
+  http:
+    addr: 0.0.0.0:80
+  doc:
+    host: 0.0.0.0:8081
+    version: "1.0"
+
+sys:
+  mode: debug
+  selfIP: "${POD_IP}"
+
+logs:
+  - name: af-sailor-service
+    default: true
+    enable_caller: true
+    stacktrace_level: error
+    development: false
+    cores:
+      - destination: /data/logs/info.log        #日志输出地址
+        rotate_size: 100MB                      #文件分割尺寸
+        core_type: file                         #core类型，file, stdout两种
+        enable_color: false                     #是否开启输出颜色
+        output_format: json                     #日志输出的格式, json, console
+        log_level: info                         #该日志流的等级
+      - destination: /data/logs/error.log
+        rotate_size: 100MB
+        core_type: file
+        output_format: json
+        log_level: error
+      - destination: console
+        core_type: stdout
+        output_format: console
+        enable_color: true
+        log_level: info
+  - name: cognitive_assistant_request
+    default: false
+    enable_caller: true
+    development: false
+    cores:
+      - destination: /data/logs/http_request.log
+        rotate_size: 100MB
+        core_type: file
+        output_format: json
+        log_level: info
+      - destination: console
+        core_type: stdout
+        output_format: console
+        enable_color: true
+        log_level: info
+
+database:
+  dbtype: "${DB_TYPE}"
+  host: "${DB_HOST}"
+  port: "${DB_PORT}"
+  username: "${DB_USERNAME}"
+  password: "${DB_PASSWORD}"
+  database: "${DB_NAME}"
+  max-idle-connections: 5
+  max-open-connections: 50
+  max-connection-idle-time: 300
+  max-connection-life-time: 900
+  loglevel: 2
+  isdebug: true
+  tableprefix: t_
+
+depServices:
+  userMgmPrivateHost: "${USER_MANAGE_HOST}"
+  metaDataMgmHost: "${META_DATA_MANAGE_HOST}"
+  configCenterHost: "${CONFIGURATION_CENTER_HOST}"
+  anyRobotTraceUrl: "${ANYROBOT_TRACE_URL}"
+  virtualizationEngineUrl: "${VIRTUALIZATION_ENGINE_URL}"
+  bigModelHost: "${BIGMODEL_HOST}"
+  anyDataRecUrl: "${ANYDATA_REC_URL}"
+  authServiceHost: "${AUTH_SERVICE_HOST}"
+  dataCatalogHost: "${DATA_CATALOG_HOST}"
+  dataSubjectHost: "${DATA_SUBJECT_HOST}"
+  basicSearchHost: "${BASIC_SEARCH_HOST}"
+  adpAgentFactoryHost: "${ADP_AGENT_FACTORY_HOST}"
+
+opensearch:
+  readUri: "${OPENSEARCH_READ_URI}"
+  writeUri: "${OPENSEARCH_WRITE_URI}"
+  username: "${OPENSEARCH_USERNAME}"
+  password: "${OPENSEARCH_PASSWORD}"
+  sniff: true
+  healthcheck: true
+  debug: true
+  highlight:
+    preTag: <span style="color:#FF6304;">
+    postTag: </span>
+
+openAI:
+  apiKey: "${OPENAI_API_KEY}"
+  url: "${OPENAI_URL}"
+  apiVersion: "${OPENAI_API_VERSION}"
+  apiType: "${OPENAI_API_TYPE}"
+
+anyDataConf:
+  url: "${ANYDATA_URL}"
+  accountType: "${ANYDATA_ACCOUNT_TYPE}"
+  user: "${ANYDATA_USER}"
+  password: "${ANYDATA_PASSWORD}"
+  version: "${ANYDATA_VERSION}"
+
+afSailorConf:
+  url: "${AF_SAILOR_URL}"
+
+afSailorAgentConf:
+  url: "${AF_SAILOR_AGENT_URL}"
+
+protonConf:
+  applicationUrl: "${PROTON_APPLICATION_URL}"
+
+kafkaConf:
+  version: "${KAFKA_VERSION}"
+  uri: "${KAFKA_URI}"
+  clientId: "${KAFKA_CLIENT_ID}"
+  username: "${KAFKA_USERNAME}"
+  password: "${KAFKA_PASSWORD}"
+  groupId: "${KAFKA_GROUP_ID}"
+
+
+oauth:
+  hydraAdmin: "${HYDRA_HOST}"
+  clientId: "${OAUTH_CLIENT_ID}"
+  clientSecret: "${OAUTH_CLIENT_SECRET}"
+
+telemetry:
+  traceUrl: "${TRACE_URL}"
+  logLevel: "${LOG_LEVEL}"
+  logUrl: "${LOG_URL}"
+  serverName: "${SERVER_NAME}"
+  serverVersion: "${SERVER_VERSION}"
+  traceEnabled: "${TRACE_ENABLED}"
+#telemetry:
+#  logLevel: info
+#  traceUrl: http://10.4.104.243/api/feed_ingester/v1/jobs/otl-test3/events
+#  logUrl: http://10.4.104.243/api/feed_ingester/v1/jobs/otl-test4-log/events
+#  serverName: af-sailor-service
+#  serverVersion: 1.0.0
+#  traceEnabled: "true"
+#  auditEnabled: "false"
+
+
+graphModelConfig:
+  af_datasource_id: 2
+  knw_id: 1
+
+knowledgeNetworkBuild:
+  fileBaseDir: C:\\code\\cognitive-assistant\\cmd\\server\\config\\static
+  graphScheduledCron: "0 0 * * *"
+  knowledgeNetwork:
+    - id: knowledge-network-business-relation
+      name: AF业务知识网络
+      version: 1
+  datasource:
+    - id: datasource-af-business-relation-graph-old
+      oldId: "9"
+    - id: datasource-af-business-relation-graph-new
+      name: AF业务关系
+      source: mysql
+      dataType: structured
+      address: 10.4.109.216
+      port: 3330
+      user: anyshare
+      password: 123456
+      path: af_cognitive_assistant
+      extractType: standardExtraction
+      knowledgeNetworkId: knowledge-network-business-relation
+      version: 1
+  graph:
+    - id: business-relation-graph
+      name: AF业务关系图谱
+      filePath: business_graph.json
+      knowledgeNetworkId: knowledge-network-business-relation
+      oldDatasourceId: datasource-af-business-relation-graph-old
+      newDatasourceId: datasource-af-business-relation-graph-new
+      buildTaskType: full
+      version: 2
+    - id: lineage-graph
+      name: AF血缘
+      filePath: lineage_graph.json
+      knowledgeNetworkId: knowledge-network-business-relation
+      oldDatasourceId: datasource-af-business-relation-graph-old
+      newDatasourceId: datasource-af-business-relation-graph-new
+      buildTaskType: full
+      version: 1
+    - id: smart-recommendation-graph
+      name: 业务架构图谱_算法
+      filePath: smart_recommendation_graph.json
+      knowledgeNetworkId: knowledge-network-business-relation
+      oldDatasourceId: datasource-af-business-relation-graph-old
+      newDatasourceId: datasource-af-business-relation-graph-new
+      buildTaskType: full
+      version: 1
+    - id: cognitive-search-data-catalog-graph
+      name: 认知搜索图谱_数据目录版
+      filePath: cognitive_search_data_catalog_graph.json
+      knowledgeNetworkId: knowledge-network-business-relation
+      oldDatasourceId: datasource-af-business-relation-graph-old
+      newDatasourceId: datasource-af-business-relation-graph-new
+      buildTaskType: full
+      version: 1
+    - id: cognitive-search-data-resource-graph
+      name: 认知搜索图谱_数据资源版
+      filePath: cognitive_search_data_resource_graph.json
+      knowledgeNetworkId: knowledge-network-business-relation
+      oldDatasourceId: datasource-af-business-relation-graph-old
+      newDatasourceId: datasource-af-business-relation-graph-new
+      buildTaskType: full
+      version: 1
+  graphAnalysis:
+    - id: business-general-graph-analysis
+      name: AF业务关系通用图查询
+      filePath: business_graph_analysis.json
+      graphId: business-relation-graph
+      version: 1
+    - id: cognitive-search-data-catalog-subgraph-analysis
+      name: AF认知搜索数据目录版本子图查询
+      filePath: cognitive_search_data_catalog_subgraph.json
+      graphId: cognitive-search-data-catalog-graph
+      version: 1
+    - id: cognitive-search-data-catalog-subgraph-entity-analysis
+      name: AF认知搜索数据目录版本单个实体查询
+      filePath: cognitive_search_data_catalog_subgraph_entity.json
+      graphId: cognitive-search-data-catalog-graph
+      version: 1
+    - id: cognitive-search-data-resource-subgraph-analysis
+      name: AF认知搜索数据资源版子图查询
+      filePath: cognitive_search_data_resource_subgraph.json
+      graphId: cognitive-search-data-resource-graph
+      version: 1
+    - id: cognitive-search-data-resource-subgraph-entity-analysis
+      name: AF认知搜索数据资源版子图单个实体查询
+      filePath: cognitive_search_data_resource_subgraph_entity.json
+      graphId: cognitive-search-data-resource-graph
+      version: 1
+  synonymsLexicons:
+    - id: cognitive_search_synonyms
+      name: 认知搜索同义词库
+      filePath: cognitive_search_synonyms.txt
+      knowledgeNetworkId: knowledge-network-business-relation
+      version: 1
+    - id: cognitive_search_stopwords
+      name: 认知搜索停用词库
+      filePath: cognitive_search_stopwords.txt
+      knowledgeNetworkId: knowledge-network-business-relation
+      version: 1
+  cognitiveService:
+
+
+knowledgeNetworkResourceMap:
+  afBusinessRelationsGraphConfigId: business-relation-graph
+  lineageGraphConfigId: lineage-graph
+  dataAssetsGraphConfigId: data-asset-graph
+  smartRecommendationGraphConfigId: smart-recommendation-graph
+  logicalViewGraphConfigId: logical-view-graph
+  cognitiveSearchDataCatalogGraphConfigId: cognitive-search-data-catalog-graph
+  cognitiveSearchDataResourceGraphConfigId: cognitive-search-data-resource-graph
+  dataComprehensionGraphAnalysisServiceConfigId: business-general-graph-analysis
+  assetGraphAnalysisServiceConfigId: data-asset-graph-analysis
+  dataAssetCognitiveSearchGraphAnalysisConfigId: data-asset-cognitive-search-graph-analysis
+  cognitiveSearchDataCatalogGraphAnalysisConfigId: cognitive-search-data-catalog-graph-analysis
+  cognitiveSearchResourceGraphAnalysisConfigId: cognitive-search-resource-graph-analysis
+  fieldStandardRecommendConfigId: standard-recommend-cognitive
+  flowchartRecommendConfigId: flowchart-recommend-cognitive
+  formRecommendConfigId: form-recommend-cognitive
+  standardCheckConfigId: consistency-check-cognitive
+  assetSubgraphSearchConfigId: data-asset-search-subgraph-analysis
+  assetSubgraphEntitySearchConfigId: data-asset-search-subgraph-entity-analysis
+  cognitiveSearchDataCatalogSubgraphSearchConfigId: cognitive-search-data-catalog-subgraph-analysis
+  cognitiveSearchDataCatalogSubgraphEntitySearchConfigId: cognitive-search-data-catalog-subgraph-entity-analysis
+  cognitiveSearchDataResourceSubgraphSearchConfigId: cognitive-search-data-resource-subgraph-analysis
+  cognitiveSearchDataResourceSubgraphEntitySearchConfigId: cognitive-search-data-resource-subgraph-entity-analysis
+
+
+redis:
+  addr: "${REDIS_HOST}"
+  clientName: af.cognitive-assistant
+  DB: 3
+  password: 123456
+  sentinelPassword:
+  maxRetries: 3
+  minRetryBackoff: 8
+  maxRetryBackoff: 512
+  dialTimeout: 5000
+  readTimeout: 3000
+  writeTimeout: 3000
+  poolSize: 10
+  poolTimeout: 4000
+  minIdleConns: 3
+  maxIdleConns: 10
+  connMaxIdleTime: 10
+  connMaxLifetime: 60

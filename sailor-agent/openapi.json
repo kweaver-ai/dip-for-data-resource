@@ -1,0 +1,176 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "AF Sailor Agent",
+    "description": "AF Sailor Agent认知助手服务",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://af-sailor-agent:9595",
+      "description": "生产环境"
+    }
+  ],
+  "paths": {
+    "/api/af-sailor-agent/v1/assistant/tools/af_sailor": {
+      "post": {
+        "summary": "af_sailor",
+        "description": "这是一个数据搜索工具：工具可以对问题进行数据资源元数据搜索，并返回搜索结果",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "resources": {
+                    "type": "object",
+                    "description": "资源配置信息",
+                    "properties": {
+                      "parameters": {
+                        "type": "object",
+                        "description": "资源配置信息"
+                      },
+                      "auth_url": {
+                        "type": "string",
+                        "description": "认证服务URL"
+                      },
+                      "user": {
+                        "type": "string",
+                        "description": "用户名"
+                      },
+                      "password": {
+                        "type": "string",
+                        "description": "密码"
+                      },
+                      "token": {
+                        "type": "string",
+                        "description": "认证令牌，如提供则无需用户名和密码"
+                      }
+                    },
+                    "required": ["parameters"]
+                  },
+                  "config": {
+                    "type": "object",
+                    "description": "工具配置参数",
+                    "properties": {
+                      "direct_qa": {
+                        "type": "string",
+                        "description": "背景信息"
+                      },
+                      "session_type": {
+                        "type": "string",
+                        "description": "会话类型",
+                        "enum": ["in_memory", "redis"],
+                        "default": "in_memory"
+                      },
+                      "session_id": {
+                        "type": "string",
+                        "description": "会话ID"
+                      }
+                    }
+                  },
+                  "input": {
+                    "type": "object",
+                    "description": "输入参数",
+                    "properties": {
+                      "question": {
+                        "type": "string",
+                        "description": "自然语言问题或者自然语言表述"
+                      },
+                      "extraneous_information": {
+                        "type": "string",
+                        "description": "用户在多轮对话中重复强调的信息",
+                        "default": ""
+                      }
+                    },
+                    "required": ["question"]
+                  }
+                },
+                "required": ["resources", "input"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/af-sailor-agent/v1/assistant/tools/datasource_filter": {
+      "post": {
+        "summary": "datasource_filter",
+        "description": "数据资源过滤工具，如果用户针对上一轮问答的结果做进一步追问的时候，可以使用该工具",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "llm": {
+                    "type": "object",
+                    "description": "LLM 配置参数"
+                  },
+                  "auth": {
+                    "type": "object",
+                    "description": "认证参数",
+                    "properties": {
+                      "auth_url": {
+                        "type": "string"
+                      },
+                      "user": {
+                        "type": "string"
+                      },
+                      "password": {
+                        "type": "string"
+                      },
+                      "token": {
+                        "type": "string"
+                      },
+                      "user_id": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "config": {
+                    "type": "object",
+                    "description": "工具配置参数"
+                  },
+                  "query": {
+                    "type": "string",
+                    "description": "用户查询"
+                  },
+                  "search_tool_cache_key": {
+                    "type": "string",
+                    "description": "search 工具结果的缓存 key"
+                  }
+                },
+                "required": ["query", "search_tool_cache_key"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

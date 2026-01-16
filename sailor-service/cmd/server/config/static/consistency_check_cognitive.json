@@ -1,0 +1,45 @@
+{
+  "input_type": [
+    {
+      "name": "check_af_query",
+      "type": "list"
+    }
+  ],
+  "nodes": [
+    {
+      "type": "DAG",
+      "name": "RecommdedDAG",
+      "input_type": [
+        {
+          "name": "check_af_query",
+          "type": "list"
+        }
+      ],
+      "props": [
+        {
+          "name": "CheckCodeExecutor",
+          "upstream_links": [
+            {
+              "current_input": "check_af_query",
+              "upstream_node": "_DAG",
+              "upstream_node_output": "check_af_query"
+            }
+          ],
+          "props": {
+            "entity_url": "http://10.4.117.180:6000/extract/entity",
+            "event_url": "http://10.4.117.180:6000/extract/entity",
+            "graph_id": "134"
+          }
+        }
+      ],
+      "upstream_links": [],
+      "outputs": [
+        {
+          "current_output": "graph_recommend_answer_list",
+          "upstream_node": "CheckCodeExecutor",
+          "upstream_node_output": "answers"
+        }
+      ]
+    }
+  ]
+}

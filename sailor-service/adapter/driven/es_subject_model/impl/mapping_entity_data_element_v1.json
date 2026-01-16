@@ -1,0 +1,90 @@
+{
+    "settings": {
+        "max_ngram_diff": 19,
+        "analysis": {
+            "analyzer": {
+                "lower_case_keyword_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "keyword",
+                    "filter": [
+                        "lowercase",
+                        "as_word_delimiter_graph_filter"
+                    ]
+                },
+                "af_ngram_analyzer": {
+                    "tokenizer": "af_ngram_tokenizer",
+                    "filter": [
+                        "lowercase"
+                    ]
+                },
+                "as_hanlp_analyzer": {
+                    "tokenizer": "as_hanlp",
+                    "filter": [
+                        "lowercase",
+                        "asciifolding"
+                    ]
+                },
+                "graph_analyzer": {
+                    "tokenizer": "keyword",
+                    "filter": [
+                        "lowercase",
+                        "asciifolding",
+                        "as_word_delimiter_graph_filter"
+                    ]
+                }
+            },
+            "tokenizer": {
+                "af_ngram_tokenizer": {
+                    "type": "ngram",
+                    "min_gram": 1,
+                    "max_gram": 20,
+                    "token_chars": [
+                        "letter",
+                        "digit"
+                    ]
+                },
+                "as_hanlp": {
+                    "type": "hanlp_index",
+                    "enable_stop_dictionary": true,
+                    "enable_custom_config": true
+                }
+            },
+            "filter": {
+                "as_word_delimiter_graph_filter": {
+                    "type": "word_delimiter_graph",
+                    "split_on_case_change": false,
+                    "split_on_numerics": false,
+                    "stem_english_possessive": true
+                }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "id": {
+                "type": "keyword",
+                "ignore_above": 36,
+                "index": false
+            },
+            "code": {
+                "type": "keyword"
+            },
+            "name_en": {
+                "type": "keyword"
+            },
+            "rule_id": {
+                "type": "keyword"
+            },
+            "department_ids": {
+                "type": "keyword"
+            },
+            "name_cn": {
+                "type": "keyword"
+            },
+            "std_type": {
+                "type": "keyword"
+            }
+
+        }
+    }
+}

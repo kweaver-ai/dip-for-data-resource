@@ -1,0 +1,118 @@
+# 名称空间，服务都要在同一个空间。
+namespace: anyshare
+
+# 1 修改标签
+labels:
+  deployment:
+    name: af-sailor-agent-deployment
+  pod:
+    app: af-sailor-agent-pod
+  service:
+    app: af-sailor-agent-service
+
+# 2 修改仓库服务的镜像地址：不同的项目记得修改repository中af后的项目名和tag
+image:
+  registry: acr.xxx.cn
+  repository: af/af-sailor-agent
+  tag: "1.0.0-alpha"
+  pullPolicy: IfNotPresent
+
+#3 修改容器副本数量
+replicaCount: 1
+
+#4 修改deployment的名称
+name: af-sailor-agent-deployment
+
+nodeSelector: []
+
+#需要暴露的端口号列表
+#containerPort容器需要监听的端口号
+#protocol端口协议，支持TCP和UDP，默认TCP
+ports:
+  name: server-port
+  containerPort: 9595
+
+# 修改service的名字、端口，nodePort是对外的端口。
+service:
+  name: af-sailor-agent
+  type: ClusterIP
+  port: 9595
+  version: "1.0.0"
+  telemetry:
+    log:
+      enabled: true
+      endpoint: http://feed-ingester-service:13031/api/feed_ingester/v1/jobs/job-4d42d761dbf0ea95/events
+      level: info
+    trace:
+      enabled: true
+      endpoint: http://feed-ingester-service:13031/api/feed_ingester/v1/jobs/job-a2491f67d02e482c/events
+
+depServices:
+  class-443:
+    ingressClass: class-443
+  rds:
+    host: mariadb-mariadb-master.resource
+    port: 3330
+    user: anyshare
+    password: xxx
+    database: af_main
+    type: dm8
+  redis:
+    connectInfo:
+      masterGroupName: mymaster
+      password: xxx
+      sentinelHost: proton-redis-proton-redis-sentinel.resource
+      sentinelPassword: xxx
+      sentinelPort: 26379
+      sentinelUsername: root
+      username: root
+    connectType: sentinel
+    database: 0
+  opensearch:
+    read: "opensearch-read"
+    write: "opensearch-write"
+    host: "opensearch-master"
+    port: "9200"
+    user: "admin"
+    password: "xxx"
+  ad_opensearch:
+    read: "opensearch-read"
+    write: "opensearch-write"
+    host: "opensearch-master.resource"
+    port: "9200"
+    user: "admin"
+    password: "xxx"
+  anyDataConf:
+    protocol: https
+    host: 10.4.105.234
+    port: 8444
+    accountType: username
+    user: test
+    password: xxx
+    adVersion: 3.0.0.3
+  anyDataLLMConf:
+    reader_llm_addr: "http://10.4.118.205:8305/v1/AIshuReader"
+    embedding_llm_addr: "http://10.4.118.205:8302"
+    final_llm_addr: "http://10.4.118.205:8305/v1/AIshuReader"
+  agent:
+    indicator_rewrite_query: "true"
+    model_type: "default"
+    rewrite_query_model_type: "default"
+    text2metric_model_type: "default"
+    text2sql_model_type: "default"
+    text2sql_recall_top_k: "200"
+    text2sql_rewrite_query: "false"
+    tool_llm_model_name: "Tome-pro"
+    tool_llm_openai_api_key: "EMPTY"
+    tool_llm_openai_api_base: "http://mf-model-api:9898/api/private/mf-model-api/v1/"
+
+
+# 修改pod资源限制：cpu示例:0.5/500m/1/1000m;memory示例:512Mi/1Gi
+resources:
+  requests:
+    cpu: 0.1
+    memory: 200Mi
+  limits:
+    cpu: 6
+    memory: 16Gi
+

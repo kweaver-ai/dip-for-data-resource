@@ -1,0 +1,95 @@
+[
+  {
+    "knowledge_network": {
+      "id": 9,
+      "knw_name": "AF业务知识网络_r0joO",
+      "knw_description": "10.4.105.222 new2",
+      "intelligence_score": 32.79,
+      "color": "#7CBE00",
+      "creator_id": "54f6687a-698c-11ee-8c9d-7a4cf89e402f",
+      "final_operator": "54f6687a-698c-11ee-8c9d-7a4cf89e402f",
+      "creation_time": "2023-11-03 09:53:43",
+      "update_time": "2023-11-03 17:05:57",
+      "identify_id": "d14d3ea2-79eb-11ee-ab2a-de163934273a",
+      "to_be_uploaded": 0
+    },
+    "config": {
+      "id": 39,
+      "create_user": "54f6687a-698c-11ee-8c9d-7a4cf89e402f",
+      "create_time": "2023-11-03 09:53:48",
+      "update_user": "54f6687a-698c-11ee-8c9d-7a4cf89e402f",
+      "update_time": "2023-11-03 09:53:48",
+      "graph_name": "血缘图谱_zdrmW",
+      "graph_status": "finish",
+      "graph_baseInfo": "[{'graph_Name': '血缘图谱_zdrmW', 'graph_des': '', 'graphDBAddress': 'nebula-graphd-svc.resource', 'graph_mongo_Name': 'mongoDB-22', 'graph_DBName': 'ud48285fa79eb11eeb541de163934273a-472'}]",
+      "graph_ds": "[9]",
+      "graph_otl": "[39]",
+      "graph_KMap": "{'entity': [{'name': 't_lineage_tag_table', 'entity_type': 't_lineage_tag_table', 'x': 847.0994186681089, 'y': 304.93789536025974, 'property_map': [{'otl_prop': 'f_tb_name', 'entity_prop': 'f_tb_name'}, {'otl_prop': 'f_id', 'entity_prop': 'f_id'}, {'otl_prop': 'f_db_type', 'entity_prop': 'f_db_type'}, {'otl_prop': 'f_ds_id', 'entity_prop': 'f_ds_id'}, {'otl_prop': 'f_jdbc_url', 'entity_prop': 'f_jdbc_url'}, {'otl_prop': 'f_jdbc_user', 'entity_prop': 'f_jdbc_user'}, {'otl_prop': 'f_db_name', 'entity_prop': 'f_db_name'}, {'otl_prop': 'f_db_schema', 'entity_prop': 'f_db_schema'}]}, {'name': 't_lineage_tag_column', 'entity_type': 't_lineage_tag_column', 'x': 1264.900581331891, 'y': 305.06210463974026, 'property_map': [{'otl_prop': 'f_column', 'entity_prop': 'f_column'}, {'otl_prop': 'f_id', 'entity_prop': 'f_id'}, {'otl_prop': 'f_table_id', 'entity_prop': 'f_table_id'}]}], 'edge': [{'relations': ['t_lineage_tag_table', 't_lineage_edge_column_table_relation', 't_lineage_tag_column'], 'entity_type': 't_lineage_edge_column_table_relation', 'property_map': [], 'relation_map': {'begin_class_prop': 'f_id', 'equation_begin': '等于', 'relation_begin_pro': 'f_table_id', 'equation': '', 'relation_end_pro': 'f_column_id', 'equation_end': '等于', 'end_class_prop': 'f_id'}}, {'relations': ['t_lineage_tag_column', 't_lineage_tag_column_2_t_lineage_tag_table', 't_lineage_tag_table'], 'entity_type': 't_lineage_edge_column_table_relation', 'property_map': [], 'relation_map': {'begin_class_prop': 'f_id', 'equation_begin': '等于', 'relation_begin_pro': 'f_column_id', 'equation': '', 'relation_end_pro': 'f_table_id', 'equation_end': '等于', 'end_class_prop': 'f_id'}}, {'relations': ['t_lineage_tag_table', 't_lineage_edge_table', 't_lineage_tag_table'], 'entity_type': 't_lineage_edge_table', 'property_map': [], 'relation_map': {'begin_class_prop': 'f_id', 'equation_begin': '等于', 'relation_begin_pro': 'f_parent_id', 'equation': '', 'relation_end_pro': 'f_child_id', 'equation_end': '等于', 'end_class_prop': 'f_id'}}, {'relations': ['t_lineage_tag_column', 't_lineage_edge_column', 't_lineage_tag_column'], 'entity_type': 't_lineage_edge_column', 'property_map': [], 'relation_map': {'begin_class_prop': 'f_id', 'equation_begin': '等于', 'relation_begin_pro': 'f_parent_id', 'equation': '', 'relation_end_pro': 'f_child_id', 'equation_end': '等于', 'end_class_prop': 'f_id'}}], 'files': [{'ds_id': 9, 'data_source': 'mysql', 'ds_path': 'af_cognitive_assistant', 'extract_type': 'sqlExtraction', 'extract_rules': [{'entity_type': 't_lineage_edge_table', 'property': [{'column_name': 'f_id', 'property_field': 'f_id'}, {'column_name': 'f_parent_id', 'property_field': 'f_parent_id'}, {'column_name': 'f_child_id', 'property_field': 'f_child_id'}, {'column_name': 'f_create_type', 'property_field': 'f_create_type'}, {'column_name': 'f_create_time', 'property_field': 'f_create_time'}, {'column_name': 'f_query_text', 'property_field': 'f_query_text'}, {'column_name': 'created_at', 'property_field': 'created_at'}, {'column_name': 'updated_at', 'property_field': 'updated_at'}, {'column_name': 'deleted_at', 'property_field': 'deleted_at'}]}], 'files': [{'file_name': 't_lineage_edge_table', 'file_path': 'af_cognitive_assistant', 'file_source': 'select *\\nfrom af_metadata.t_lineage_edge_table where deleted_at=0;\\n', 'file_type': ''}], 'x': 897.0, 'y': 354.0}, {'ds_id': 9, 'data_source': 'mysql', 'ds_path': 'af_cognitive_assistant', 'extract_type': 'sqlExtraction', 'extract_rules': [{'entity_type': 't_lineage_edge_column_table_relation', 'property': [{'column_name': 'f_id', 'property_field': 'f_id'}, {'column_name': 'f_table_id', 'property_field': 'f_table_id'}, {'column_name': 'f_column_id', 'property_field': 'f_column_id'}, {'column_name': 'created_at', 'property_field': 'created_at'}, {'column_name': 'updated_at', 'property_field': 'updated_at'}, {'column_name': 'deleted_at', 'property_field': 'deleted_at'}]}], 'files': [{'file_name': 't_lineage_edge_column_table_relation', 'file_path': 'af_cognitive_assistant', 'file_source': 'select *\\nfrom af_metadata.t_lineage_edge_column_table_relation where deleted_at=0;\\n', 'file_type': ''}], 'x': 1106.0, 'y': 355.0}, {'ds_id': 9, 'data_source': 'mysql', 'ds_path': 'af_cognitive_assistant', 'extract_type': 'sqlExtraction', 'extract_rules': [{'entity_type': 't_lineage_edge_column', 'property': [{'column_name': 'f_id', 'property_field': 'f_id'}, {'column_name': 'f_parent_id', 'property_field': 'f_parent_id'}, {'column_name': 'f_child_id', 'property_field': 'f_child_id'}, {'column_name': 'f_create_type', 'property_field': 'f_create_type'}, {'column_name': 'f_create_time', 'property_field': 'f_create_time'}, {'column_name': 'f_query_text', 'property_field': 'f_query_text'}, {'column_name': 'created_at', 'property_field': 'created_at'}, {'column_name': 'updated_at', 'property_field': 'updated_at'}, {'column_name': 'deleted_at', 'property_field': 'deleted_at'}]}], 'files': [{'file_name': 't_lineage_edge_column', 'file_path': 'af_cognitive_assistant', 'file_source': 'select *\\nfrom af_metadata.t_lineage_edge_column where deleted_at=0;\\n', 'file_type': ''}], 'x': 1314.0, 'y': 355.0}, {'ds_id': 9, 'data_source': 'mysql', 'ds_path': 'af_cognitive_assistant', 'extract_type': 'sqlExtraction', 'extract_rules': [{'entity_type': 't_lineage_tag_column', 'property': [{'column_name': 'f_id', 'property_field': 'f_id'}, {'column_name': 'f_table_id', 'property_field': 'f_table_id'}, {'column_name': 'f_column', 'property_field': 'f_column'}]}], 'files': [{'file_name': 't_lineage_tag_column', 'file_path': 'af_cognitive_assistant', 'file_source': ' SELECT `f_id`, `f_table_id`, `f_column` FROM af_metadata.t_lineage_tag_column', 'file_type': ''}], 'x': 1314.900581331891, 'y': 355.06210463974026}, {'ds_id': 9, 'data_source': 'mysql', 'ds_path': 'af_cognitive_assistant', 'extract_type': 'sqlExtraction', 'extract_rules': [{'entity_type': 't_lineage_tag_table', 'property': [{'column_name': 'f_id', 'property_field': 'f_id'}, {'column_name': 'f_db_type', 'property_field': 'f_db_type'}, {'column_name': 'f_ds_id', 'property_field': 'f_ds_id'}, {'column_name': 'f_jdbc_url', 'property_field': 'f_jdbc_url'}, {'column_name': 'f_jdbc_user', 'property_field': 'f_jdbc_user'}, {'column_name': 'f_db_name', 'property_field': 'f_db_name'}, {'column_name': 'f_db_schema', 'property_field': 'f_db_schema'}, {'column_name': 'f_tb_name', 'property_field': 'f_tb_name'}]}], 'files': [{'file_name': 't_lineage_tag_table', 'file_path': 'af_cognitive_assistant', 'file_source': ' SELECT `f_id`, `f_db_type`, `f_ds_id`,`f_jdbc_url`,`f_jdbc_user`,`f_db_name`,`f_db_schema`,`f_tb_name` FROM af_metadata.t_lineage_tag_table\\n\\n\\n', 'file_type': ''}], 'x': 897.0994186681089, 'y': 354.93789536025974}]}",
+      "rabbitmq_ds": 0,
+      "upload": 0,
+      "step_num": 5,
+      "is_upload": 1,
+      "to_be_uploaded": 0,
+      "upload_ready": 0
+    },
+    "search_graph": {
+      "id": 39,
+      "KDB_ip": "nebula-graphd-svc.resource",
+      "KDB_name": "ud48285fa79eb11eeb541de163934273a-472",
+      "KDB_name_temp": "ud48285fa79eb11eeb541de163934273a-471",
+      "KG_config_id": 39,
+      "KG_name": "血缘图谱_zdrmW",
+      "status": "normal",
+      "hlStart": "@-highlight-content-start-@",
+      "hlEnd": "@-highlight-content-end-@",
+      "create_user": "54f6687a-698c-11ee-8c9d-7a4cf89e402f",
+      "create_time": "2023-11-03 09:53:48",
+      "update_user": "54f6687a-698c-11ee-8c9d-7a4cf89e402f",
+      "update_time": "2023-11-03 09:53:48",
+      "graph_update_time": "2023-11-06 16:50:53",
+      "kg_data_volume": 1
+    },
+    "ontology": {
+      "id": 39,
+      "create_user": "54f6687a-698c-11ee-8c9d-7a4cf89e402f",
+      "create_time": "2023-11-03 09:53:48",
+      "update_user": "54f6687a-698c-11ee-8c9d-7a4cf89e402f",
+      "update_time": "2023-11-03 09:53:48",
+      "ontology_name": "",
+      "ontology_des": "",
+      "otl_status": "available",
+      "entity": "[{'entity_id': 1, 'name': 't_lineage_tag_table', 'description': '', 'alias': '表', 'synonym': '', 'default_tag': 'f_tb_name', 'properties_index': ['f_id', 'f_db_name', 'f_db_schema', 'f_tb_name'], 'primary_key': ['f_id'], 'properties': [{'name': 'f_id', 'description': '', 'alias': 'f_id', 'data_type': 'string', 'synonym': ''}, {'name': 'f_db_type', 'description': '', 'alias': 'f_db_type', 'data_type': 'string', 'synonym': ''}, {'name': 'f_ds_id', 'description': '', 'alias': 'f_ds_id', 'data_type': 'string', 'synonym': ''}, {'name': 'f_jdbc_url', 'description': '', 'alias': 'f_jdbc_url', 'data_type': 'string', 'synonym': ''}, {'name': 'f_jdbc_user', 'description': '', 'alias': 'f_jdbc_user', 'data_type': 'string', 'synonym': ''}, {'name': 'f_db_name', 'description': '', 'alias': 'f_db_name', 'data_type': 'string', 'synonym': ''}, {'name': 'f_db_schema', 'description': '', 'alias': 'f_db_schema', 'data_type': 'string', 'synonym': ''}, {'name': 'f_tb_name', 'description': '', 'alias': 'f_tb_name', 'data_type': 'string', 'synonym': ''}], 'x': 847.0994186681089, 'y': 304.93789536025974, 'icon': 'empty', 'shape': 'circle', 'size': '0.5x', 'fill_color': 'rgba(58,70,115,1)', 'stroke_color': 'rgba(58,70,115,1)', 'text_color': 'rgba(0,0,0,1)', 'text_position': 'top', 'text_width': 15, 'index_default_switch': False, 'index_main_switch': False, 'text_type': 'adaptive', 'source_type': 'automatic', 'model': '', 'task_id': '6', 'icon_color': '#ffffff'}, {'entity_id': 2, 'name': 't_lineage_tag_column', 'description': '', 'alias': '字段', 'synonym': '', 'default_tag': 'f_column', 'properties_index': ['f_id', 'f_column'], 'primary_key': ['f_id'], 'properties': [{'name': 'f_id', 'description': '', 'alias': 'f_id', 'data_type': 'string', 'synonym': ''}, {'name': 'f_table_id', 'description': '', 'alias': 'f_table_id', 'data_type': 'string', 'synonym': ''}, {'name': 'f_column', 'description': '', 'alias': 'f_column', 'data_type': 'string', 'synonym': ''}], 'x': 1264.900581331891, 'y': 305.06210463974026, 'icon': 'empty', 'shape': 'circle', 'size': '0.5x', 'fill_color': 'rgba(216,112,122,1)', 'stroke_color': 'rgba(216,112,122,1)', 'text_color': 'rgba(0,0,0,1)', 'text_position': 'top', 'text_width': 15, 'index_default_switch': False, 'index_main_switch': False, 'text_type': 'adaptive', 'source_type': 'automatic', 'model': '', 'task_id': '6', 'icon_color': '#ffffff'}]",
+      "edge": "[{'edge_id': 3, 'name': 't_lineage_edge_column_table_relation', 'description': '', 'alias': '字段信息', 'synonym': '', 'properties_index': [], 'default_tag': '', 'properties': [], 'relations': ['t_lineage_tag_table', 't_lineage_edge_column_table_relation', 't_lineage_tag_column'], 'colour': 'rgba(80,160,106,1)', 'shape': 'line', 'width': '0.25x', 'source_type': 'manual', 'index_default_switch': False, 'index_main_switch': False, 'model': ''}, {'edge_id': 4, 'name': 't_lineage_tag_column_2_t_lineage_tag_table', 'description': '', 'alias': '字段来源', 'synonym': '', 'properties_index': [], 'default_tag': '', 'properties': [], 'relations': ['t_lineage_tag_column', 't_lineage_tag_column_2_t_lineage_tag_table', 't_lineage_tag_table'], 'colour': 'rgba(80,160,106,1)', 'shape': 'line', 'width': '0.25x', 'source_type': 'manual', 'index_default_switch': False, 'index_main_switch': False, 'model': ''}, {'edge_id': 5, 'name': 't_lineage_edge_table', 'description': '', 'alias': '表血缘', 'synonym': '', 'properties_index': [], 'default_tag': '', 'properties': [], 'relations': ['t_lineage_tag_table', 't_lineage_edge_table', 't_lineage_tag_table'], 'colour': 'rgba(84,99,156,1)', 'shape': 'line', 'width': '0.25x', 'source_type': 'manual', 'index_default_switch': False, 'index_main_switch': False, 'model': ''}, {'edge_id': 6, 'name': 't_lineage_edge_column', 'description': '', 'alias': '字段血缘', 'synonym': '', 'properties_index': [], 'default_tag': '', 'properties': [], 'relations': ['t_lineage_tag_column', 't_lineage_edge_column', 't_lineage_tag_column'], 'colour': 'rgba(58,70,115,1)', 'shape': 'line', 'width': '0.25x', 'source_type': 'manual', 'index_default_switch': False, 'index_main_switch': False, 'model': ''}]",
+      "used_task": "[6]",
+      "all_task": "[6]",
+      "identify_id": null,
+      "knw_id": null,
+      "domain": null,
+      "otl_temp": "[]",
+      "canvas": "{}"
+    },
+    "search_config": [],
+    "subgraph_config": [
+      {
+        "id": 39,
+        "ontology_id": 39,
+        "graph_id": 39,
+        "name": "ungrouped",
+        "entity": "[{'entity_id': 1, 'name': 't_lineage_tag_table', 'description': '', 'alias': '表', 'synonym': '', 'default_tag': 'f_tb_name', 'properties_index': ['f_id', 'f_db_name', 'f_db_schema', 'f_tb_name'], 'primary_key': ['f_id'], 'properties': [{'name': 'f_id', 'description': '', 'alias': 'f_id', 'data_type': 'string', 'synonym': ''}, {'name': 'f_db_type', 'description': '', 'alias': 'f_db_type', 'data_type': 'string', 'synonym': ''}, {'name': 'f_ds_id', 'description': '', 'alias': 'f_ds_id', 'data_type': 'string', 'synonym': ''}, {'name': 'f_jdbc_url', 'description': '', 'alias': 'f_jdbc_url', 'data_type': 'string', 'synonym': ''}, {'name': 'f_jdbc_user', 'description': '', 'alias': 'f_jdbc_user', 'data_type': 'string', 'synonym': ''}, {'name': 'f_db_name', 'description': '', 'alias': 'f_db_name', 'data_type': 'string', 'synonym': ''}, {'name': 'f_db_schema', 'description': '', 'alias': 'f_db_schema', 'data_type': 'string', 'synonym': ''}, {'name': 'f_tb_name', 'description': '', 'alias': 'f_tb_name', 'data_type': 'string', 'synonym': ''}], 'x': 847.0994186681089, 'y': 304.93789536025974, 'icon': 'empty', 'shape': 'circle', 'size': '0.5x', 'fill_color': 'rgba(58,70,115,1)', 'stroke_color': 'rgba(58,70,115,1)', 'text_color': 'rgba(0,0,0,1)', 'text_position': 'top', 'text_width': 15, 'index_default_switch': False, 'index_main_switch': False, 'text_type': 'adaptive', 'source_type': 'automatic', 'model': '', 'task_id': '6', 'icon_color': '#ffffff'}, {'entity_id': 2, 'name': 't_lineage_tag_column', 'description': '', 'alias': '字段', 'synonym': '', 'default_tag': 'f_column', 'properties_index': ['f_id', 'f_column'], 'primary_key': ['f_id'], 'properties': [{'name': 'f_id', 'description': '', 'alias': 'f_id', 'data_type': 'string', 'synonym': ''}, {'name': 'f_table_id', 'description': '', 'alias': 'f_table_id', 'data_type': 'string', 'synonym': ''}, {'name': 'f_column', 'description': '', 'alias': 'f_column', 'data_type': 'string', 'synonym': ''}], 'x': 1264.900581331891, 'y': 305.06210463974026, 'icon': 'empty', 'shape': 'circle', 'size': '0.5x', 'fill_color': 'rgba(216,112,122,1)', 'stroke_color': 'rgba(216,112,122,1)', 'text_color': 'rgba(0,0,0,1)', 'text_position': 'top', 'text_width': 15, 'index_default_switch': False, 'index_main_switch': False, 'text_type': 'adaptive', 'source_type': 'automatic', 'model': '', 'task_id': '6', 'icon_color': '#ffffff'}]",
+        "edge": "[{'edge_id': 3, 'name': 't_lineage_edge_column_table_relation', 'description': '', 'alias': '字段信息', 'synonym': '', 'properties_index': [], 'default_tag': '', 'properties': [], 'relations': ['t_lineage_tag_table', 't_lineage_edge_column_table_relation', 't_lineage_tag_column'], 'colour': 'rgba(80,160,106,1)', 'shape': 'line', 'width': '0.25x', 'source_type': 'manual', 'index_default_switch': False, 'index_main_switch': False, 'model': ''}, {'edge_id': 4, 'name': 't_lineage_tag_column_2_t_lineage_tag_table', 'description': '', 'alias': '字段来源', 'synonym': '', 'properties_index': [], 'default_tag': '', 'properties': [], 'relations': ['t_lineage_tag_column', 't_lineage_tag_column_2_t_lineage_tag_table', 't_lineage_tag_table'], 'colour': 'rgba(80,160,106,1)', 'shape': 'line', 'width': '0.25x', 'source_type': 'manual', 'index_default_switch': False, 'index_main_switch': False, 'model': ''}, {'edge_id': 5, 'name': 't_lineage_edge_table', 'description': '', 'alias': '表血缘', 'synonym': '', 'properties_index': [], 'default_tag': '', 'properties': [], 'relations': ['t_lineage_tag_table', 't_lineage_edge_table', 't_lineage_tag_table'], 'colour': 'rgba(84,99,156,1)', 'shape': 'line', 'width': '0.25x', 'source_type': 'manual', 'index_default_switch': False, 'index_main_switch': False, 'model': ''}, {'edge_id': 6, 'name': 't_lineage_edge_column', 'description': '', 'alias': '字段血缘', 'synonym': '', 'properties_index': [], 'default_tag': '', 'properties': [], 'relations': ['t_lineage_tag_column', 't_lineage_edge_column', 't_lineage_tag_column'], 'colour': 'rgba(58,70,115,1)', 'shape': 'line', 'width': '0.25x', 'source_type': 'manual', 'index_default_switch': False, 'index_main_switch': False, 'model': ''}]",
+        "create_time": "2023-11-03 09:53:48",
+        "update_time": "2023-11-03 09:53:48"
+      }
+    ],
+    "ds_basic_infos": [
+      {
+        "id": 9,
+        "dsname": "AF数据源_6R0BN",
+        "ds_path": "af_cognitive_assistant",
+        "dataType": "structured",
+        "data_source": "mysql"
+      }
+    ],
+    "version": "builder-1.1.15"
+  }
+]

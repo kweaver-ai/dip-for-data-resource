@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Values.name}}
+  namespace: {{.Values.namespace}}
+  labels:
+{{- toYaml .Values.labels | nindent 4}}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 25%
+    type: RollingUpdate
+  selector:
+    matchLabels:
+{{- toYaml .Values.labels | nindent 6}}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+{{- toYaml .Values.labels | nindent 8}}
+    spec:
+      containers:
+      - name: {{.Values.name}}
+        args: ["server", "-c", "{{.Values.configPath}}"]
+        image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{.Values.image.pullPolicy}}
+        ports:
+        - name: {{.Values.ports.server.name}}
+          containerPort: {{.Values.service.port}}
+          protocol: TCP
+        resources:
+{{- toYaml .Values.resources | nindent 12 }}
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.podIP
+        volumeMounts:
+        - name: config-volume
+          mountPath: {{.Values.configPath}}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{- range .}}
+        {{ .labelKey | quote }}: {{ .labelVal | quote }}
+      {{- end }}
+    {{- end }} 
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - {{ .Values.labels.app }}
+              topologyKey: "kubernetes.io/hostname"
+{{- with .Values.affinity }}
+      affinity:
+{{- toYaml . | nindent 8 }}
+{{- end }}
+{{- with .Values.tolerations }}
+      tolerations:
+{{- toYaml . | nindent 8 }}
+{{- end }}
+      volumes:
+      - name: config-volume
+        configMap:
+          name: {{.Values.configMap.name}}

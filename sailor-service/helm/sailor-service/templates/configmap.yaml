@@ -1,0 +1,265 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configMap.name }}
+  namespace: {{ .Values.namespace }}
+data:
+  config.yaml: |
+    server:
+      http:
+        addr: {{.Values.ports.server.ip}}:{{.Values.service.port}}
+      doc:
+        host: {{.Values.ports.doc.ip}}:{{.Values.ports.doc.port}}
+        version: "1.0"
+
+    sys:
+      mode: {{.Values.sys.mode}}
+      selfIP: "${POD_IP}"
+
+    logs:
+      - name: {{.Values.log.stdLogName}}
+        default: true
+        enable_caller: true
+        stacktrace_level: error
+        development: false
+        cores:
+          - destination: /data/logs/info.log        #日志输出地址
+            rotate_size: 100MB                      #文件分割尺寸
+            core_type: file                         #core类型，file, stdout两种
+            enable_color: false                     #是否开启输出颜色
+            output_format: json                     #日志输出的格式, json, console
+            log_level: info                         #该日志流的等级
+          - destination: /data/logs/error.log
+            rotate_size: 100MB
+            core_type: file
+            output_format: json
+            log_level: error
+          - destination: console
+            core_type: stdout
+            output_format: console
+            enable_color: true
+            log_level: info
+      - name: {{.Values.log.httpLogName}}
+        default: false
+        enable_caller: true
+        development: false
+        cores:
+          - destination: /data/logs/http_request.log
+            rotate_size: 100MB
+            core_type: file
+            output_format: json
+            log_level: info
+          - destination: console
+            core_type: stdout
+            output_format: console
+            enable_color: true
+            log_level: info
+
+    database:
+      dbtype: {{.Values.depServices.rds.type}}
+      host: {{.Values.depServices.rds.host}}
+      port: {{.Values.depServices.rds.port | quote }}
+      username: {{.Values.depServices.rds.user}}
+      password: {{.Values.depServices.rds.password}}
+      database: {{.Values.depServices.rds.database}}
+      max-idle-connections: 5
+      max-open-connections: 50
+      max-connection-idle-time: 300
+      max-connection-life-time: 900
+      loglevel: 2
+      isdebug: {{.Values.depServices.rds.debug}}
+      tableprefix: {{.Values.depServices.rds.tablePrefix}}
+
+    depServices:
+      userMgmPrivateHost: {{.Values.depServices.userMgmPrivate.schema}}://{{.Values.depServices.userMgmPrivate.host}}:{{.Values.depServices.userMgmPrivate.port}}
+      metaDataMgmHost: {{.Values.depServices.metaDataMgm.schema}}://{{.Values.depServices.metaDataMgm.host}}:{{.Values.depServices.metaDataMgm.port}}
+      configCenterHost: {{.Values.depServices.configCenter.schema}}://{{.Values.depServices.configCenter.host}}:{{.Values.depServices.configCenter.port}}
+      anyRobotTraceUrl: {{.Values.service.telemetry.trace.endpoint}}
+      virtualizationEngineUrl: {{.Values.depServices.virtualizationEngine.protocol}}://{{.Values.depServices.virtualizationEngine.host}}:{{.Values.depServices.virtualizationEngine.port}}
+      bigModelHost: {{.Values.depServices.bigModel.schema}}://{{.Values.depServices.bigModel.host}}:{{.Values.depServices.bigModel.port}}
+      anyDataRecUrl: {{.Values.depServices.anyDataRec.schema}}://{{.Values.depServices.anyDataRec.host}}:{{.Values.depServices.anyDataRec.port}}
+      authServiceHost: {{.Values.depServices.authService.schema}}://{{.Values.depServices.authService.host}}:{{.Values.depServices.authService.port}}
+
+    openAI:
+      apiKey: {{.Values.depServices.openAI.apiKey}}
+      url: {{.Values.depServices.openAI.url}}
+      apiVersion: {{.Values.depServices.openAI.apiVersion}}
+      apiType: {{.Values.depServices.openAI.apiType}}
+
+    anyDataConf:
+      url: {{.Values.depServices.anyDataConf.protocol}}://{{.Values.depServices.anyDataConf.host}}:{{.Values.depServices.anyDataConf.port}}
+      accountType: {{.Values.depServices.anyDataConf.accountType}}
+      user: {{.Values.depServices.anyDataConf.user}}
+      password: {{.Values.depServices.anyDataConf.password | quote}}
+      version: {{.Values.depServices.anyDataConf.adVersion | quote}}
+
+    afSailorConf:
+      url: {{.Values.depServices.afSailor.schema}}://{{.Values.depServices.afSailor.host}}:{{.Values.depServices.afSailor.port}}
+
+    afSailorAgentConf:
+      url: {{.Values.depServices.afSailorAgent.schema}}://{{.Values.depServices.afSailorAgent.host}}:{{.Values.depServices.afSailorAgent.port}}
+
+    kafkaConf:
+      version: {{.Values.depServices.kafkaConf.version}}
+      uri: {{.Values.depServices.kafkaConf.uri}}
+      clientId: {{.Values.depServices.kafkaConf.clientId}}
+      username: {{.Values.depServices.kafkaConf.username}}
+      password: {{.Values.depServices.kafkaConf.password}}
+      groupId: {{.Values.depServices.kafkaConf.groupId}}
+
+    oauth:
+      hydraAdmin: {{.Values.depServices.hydraService.schema}}://{{.Values.depServices.hydraService.host}}:{{.Values.depServices.hydraService.port}}
+      clientId: {{.Values.service.oauthClientID}}
+      clientSecret: {{.Values.service.oauthClientSecret}}
+
+    graphModelConfig:
+      knw_id: 1
+      af_datasource_id: 2
+
+    knowledgeNetworkBuild:
+      fileBaseDir: {{.Values.staticPath}}
+      graphScheduledCron: {{.Values.depServices.anyDataConf.graphScheduledCron | quote}}
+      knowledgeNetwork:
+      - id: knowledge-network-business-relation
+        name: AF业务知识网络
+        version: 1
+      datasource:
+      - id: datasource-af-business-relation-graph-old
+        oldId: "{{.Values.knowledgeNetwork.datasource.oldDatasourceId}}"
+      - id: datasource-af-business-relation-graph-new
+        name: AF数据源
+        source: mysql
+        dataType: structured
+        address: {{.Values.depServices.anyDataConf.afRdsAddress}}
+        port: {{.Values.depServices.anyDataConf.afRdsPort}}
+        user: {{.Values.depServices.anyDataConf.afRdsUser}}
+        password: {{.Values.depServices.anyDataConf.afRdsPassword}}
+        path: {{.Values.depServices.anyDataConf.afRdsDb}}
+        extractType: standardExtraction
+        knowledgeNetworkId: knowledge-network-business-relation
+        version: 1
+      graph:
+      - id: business-relation-graph
+        name: 业务架构图谱
+        filePath: business_graph.json
+        knowledgeNetworkId: knowledge-network-business-relation
+        oldDatasourceId: datasource-af-business-relation-graph-old
+        newDatasourceId: datasource-af-business-relation-graph-new
+        buildTaskType: full
+        version: 2
+      - id: lineage-graph
+        name: 血缘图谱
+        filePath: lineage_graph.json
+        knowledgeNetworkId: knowledge-network-business-relation
+        oldDatasourceId: datasource-af-business-relation-graph-old
+        newDatasourceId: datasource-af-business-relation-graph-new
+        buildTaskType: full
+        version: 1
+      - id: smart-recommendation-graph
+        name: 业务架构图谱_算法
+        filePath: smart_recommendation_graph.json
+        knowledgeNetworkId: knowledge-network-business-relation
+        oldDatasourceId: datasource-af-business-relation-graph-old
+        newDatasourceId: datasource-af-business-relation-graph-new
+        buildTaskType: full
+        version: 1
+      - id: cognitive-search-data-catalog-graph
+        name: 认知搜索图谱_数据目录版
+        filePath: cognitive_search_data_catalog_graph.json
+        knowledgeNetworkId: knowledge-network-business-relation
+        oldDatasourceId: datasource-af-business-relation-graph-old
+        newDatasourceId: datasource-af-business-relation-graph-new
+        buildTaskType: full
+        version: 1
+      - id: cognitive-search-data-resource-graph
+        name: 认知搜索图谱_数据资源版
+        filePath: cognitive_search_data_resource_graph.json
+        knowledgeNetworkId: knowledge-network-business-relation
+        oldDatasourceId: datasource-af-business-relation-graph-old
+        newDatasourceId: datasource-af-business-relation-graph-new
+        buildTaskType: full
+        version: 1
+      graphAnalysis:
+      - id: business-general-graph-analysis
+        name: 业务架构通用图查询
+        filePath: business_graph_analysis.json
+        graphId: business-relation-graph
+        version: 1
+      - id: cognitive-search-data-catalog-subgraph-analysis
+        name: AF认知搜索数据目录版本子图查询
+        filePath: cognitive_search_data_catalog_subgraph.json
+        graphId: cognitive-search-data-catalog-graph
+        version: 1
+      - id: cognitive-search-data-catalog-subgraph-entity-analysis
+        name: AF认知搜索数据目录版本单个实体查询
+        filePath: cognitive_search_data_catalog_subgraph_entity.json
+        graphId: cognitive-search-data-catalog-graph
+        version: 1
+      - id: cognitive-search-data-resource-subgraph-analysis
+        name: AF认知搜索数据资源版子图查询
+        filePath: cognitive_search_data_resource_subgraph.json
+        graphId: cognitive-search-data-resource-graph
+        version: 1
+      - id: cognitive-search-data-resource-subgraph-entity-analysis
+        name: AF认知搜索数据资源版子图单个实体查询
+        filePath: cognitive_search_data_resource_subgraph_entity.json
+        graphId: cognitive-search-data-resource-graph
+        version: 1
+      synonymsLexicons:
+      - id: cognitive_search_synonyms
+        name: 认知搜索同义词库
+        filePath: cognitive_search_synonyms.txt
+        knowledgeNetworkId: knowledge-network-business-relation
+        version: 1
+      - id: cognitive_search_stopwords
+        name: 认知搜索停用词库
+        filePath: cognitive_search_stopwords.txt
+        knowledgeNetworkId: knowledge-network-business-relation
+        version: 1
+      cognitiveService:
+
+
+    knowledgeNetworkResourceMap:
+      afBusinessRelationsGraphConfigId: business-relation-graph
+      lineageGraphConfigId: lineage-graph
+      dataAssetsGraphConfigId: data-asset-graph
+      cognitiveSearchDataCatalogGraphConfigId: cognitive-search-data-catalog-graph
+      cognitiveSearchDataResourceGraphConfigId: cognitive-search-data-resource-graph
+      smartRecommendationGraphConfigId: smart-recommendation-graph
+      logicalViewGraphConfigId: logical-view-graph
+      dataComprehensionGraphAnalysisServiceConfigId: business-general-graph-analysis
+      assetGraphAnalysisServiceConfigId: data-asset-graph-analysis
+      dataAssetCognitiveSearchGraphAnalysisConfigId: data-asset-cognitive-search-graph-analysis
+      cognitiveSearchDataCatalogGraphAnalysisConfigId: cognitive-search-data-catalog-graph-analysis
+      cognitiveSearchResourceGraphAnalysisConfigId: cognitive-search-resource-graph-analysis
+      fieldStandardRecommendConfigId: standard-recommend-cognitive
+      flowchartRecommendConfigId: flowchart-recommend-cognitive
+      formRecommendConfigId: form-recommend-cognitive
+      standardCheckConfigId: consistency-check-cognitive
+      assetSubgraphSearchConfigId: data-asset-search-subgraph-analysis
+      assetSubgraphEntitySearchConfigId: data-asset-search-subgraph-entity-analysis
+      cognitiveSearchDataCatalogSubgraphSearchConfigId: cognitive-search-data-catalog-subgraph-analysis
+      cognitiveSearchDataCatalogSubgraphEntitySearchConfigId: cognitive-search-data-catalog-subgraph-entity-analysis
+      cognitiveSearchDataResourceSubgraphSearchConfigId: cognitive-search-data-resource-subgraph-analysis
+      cognitiveSearchDataResourceSubgraphEntitySearchConfigId: cognitive-search-data-resource-subgraph-entity-analysis
+
+    redis:
+      addr: {{.Values.depServices.redis.addr}}
+      clientName: {{.Values.depServices.redis.clientName}}
+      DB: {{.Values.depServices.redis.db}}
+      password: {{.Values.depServices.redis.password}}
+      sentinelPassword: {{.Values.depServices.redis.sentinelPassword}}
+      maxRetries: {{.Values.depServices.redis.maxRetries}}
+      minRetryBackoff: {{.Values.depServices.redis.minRetryBackoff}}
+      maxRetryBackoff: {{.Values.depServices.redis.maxRetryBackoff}}
+      dialTimeout: {{.Values.depServices.redis.dialTimeout}}
+      readTimeout: {{.Values.depServices.redis.readTimeout}}
+      writeTimeout: {{.Values.depServices.redis.writeTimeout}}
+      poolSize: {{.Values.depServices.redis.poolSize}}
+      poolTimeout: {{.Values.depServices.redis.poolTimeout}}
+      minIdleConns: {{.Values.depServices.redis.minIdleConns}}
+      maxIdleConns: {{.Values.depServices.redis.maxIdleConns}}
+      connMaxIdleTime: {{.Values.depServices.redis.connMaxIdleTime}}
+      connMaxLifetime: {{.Values.depServices.redis.connMaxLifetime}}
+      masterName: {{.Values.depServices.redis.masterName}}

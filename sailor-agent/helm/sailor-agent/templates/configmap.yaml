@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.name }}-cm
+  namespace: {{ .Values.namespace }}
+data:
+  {{- with .Values }}
+  MYSQL_HOST: "{{ .depServices.rds.host}}:{{ .depServices.rds.port}}"
+  MYSQL_USERNAME: {{ .depServices.rds.user | quote }}
+  MYSQL_PASSWORD: {{ .depServices.rds.password | quote }}
+  MYSQL_DB: {{ .depServices.rds.database | quote }}
+  DB_TYPE: {{ .depServices.rds.type | quote }}
+  TRACE_ENABLED: {{.service.telemetry.trace.enabled| quote }}
+  TRACE_URL: {{.service.telemetry.trace.endpoint | quote }}
+  LOG_LEVEL: {{.service.telemetry.log.level | quote }}
+  LOG_URL: {{.service.telemetry.log.endpoint | quote }}
+  SERVER_NAME: {{.service.name | quote }}
+  SERVER_VERSION: {{.service.version | quote }}
+  OPENSEARCH_HOST: {{ .depServices.opensearch.host | quote}}
+  OPENSEARCHREAD: {{ .depServices.opensearch.read | quote}}
+  OPENSEARCHWRITE: {{ .depServices.opensearch.write | quote}}
+  OPENSEARCH_PORT: {{ quote .depServices.opensearch.port }}
+  OPENSEARCH_USER: {{ .depServices.opensearch.user | quote}}
+  OPENSEARCH_PASS: {{ .depServices.opensearch.password | quote}}
+
+  AD_OPENSEARCH_HOST: {{ .depServices.ad_opensearch.host | quote}}
+  AD_OPENSEARCHREAD: {{ .depServices.ad_opensearch.read | quote}}
+  AD_OPENSEARCHWRITE: {{ .depServices.ad_opensearch.write | quote}}
+  AD_OPENSEARCH_PORT: {{ quote .depServices.ad_opensearch.port }}
+  AD_OPENSEARCH_USER: {{ .depServices.ad_opensearch.user | quote}}
+  AD_OPENSEARCH_PASS: {{ .depServices.ad_opensearch.password | quote}}
+
+  AD_GATEWAY_URL: {{ .depServices.anyDataConf.protocol}}://{{ .depServices.anyDataConf.host}}:{{ .depServices.anyDataConf.port}}
+  AD_GATEWAY_ACCOUNT_TYPE: {{ .depServices.anyDataConf.accountType  | quote}}
+  AD_GATEWAY_USER: {{ .depServices.anyDataConf.user  | quote}}
+  AD_GATEWAY_PASSWORD: {{ .depServices.anyDataConf.password  | quote}}
+  AD_VERSION: {{ .depServices.anyDataConf.adVersion  | quote}}
+
+  AISHU_READER_LLM: {{ .depServices.anyDataLLMConf.reader_llm_addr | quote}}
+  FINAL_READER_LLM: {{ .depServices.anyDataLLMConf.final_llm_addr | quote}}
+  ML_EMBEDDING_URL: {{ .depServices.anyDataLLMConf.embedding_llm_addr | quote}}
+
+  INDICATOR_REWRITE_QUERY: {{ .depServices.agent.indicator_rewrite_query | quote}}
+  MODEL_TYPE: {{ .depServices.agent.model_type | quote}}
+  REWRITE_QUERY_MODEL_TYPE: {{ .depServices.agent.rewrite_query_model_type | quote}}
+  TEXT2METRIC_MODEL_TYPE: {{ .depServices.agent.text2metric_model_type | quote}}
+  TEXT2SQL_MODEL_TYPE: {{ .depServices.agent.text2sql_model_type | quote}}
+  TEXT2SQL_RECALL_TOP_K: {{ .depServices.agent.text2sql_recall_top_k | quote}}
+  TEXT2SQL_REWRITE_QUERY: {{ .depServices.agent.text2sql_rewrite_query | quote}}
+  TOOL_LLM_MODEL_NAME: { { .depServices.agentConf.tool_llm_model_name | quote } }
+  TOOL_LLM_OPENAI_API_KEY: { { .depServices.agentConf.tool_llm_openai_api_key | quote } }
+  TOOL_LLM_OPENAI_API_BASE: { { .depServices.agentConf.tool_llm_openai_api_base | quote } }
+
+  {{- end }}
+  {{- with .Values.depServices.redis }}
+  REDIS_MASTER_NAME: {{ .connectInfo.masterGroupName | quote }}
+  REDIS_USER_NAME: {{ .connectInfo.username | quote }}
+  REDIS_PASSWORD: {{ .connectInfo.password | quote }}
+  REDIS_SENTINEL_HOST: {{ .connectInfo.sentinelHost | quote }}
+  REDIS_SENTINEL_PORT: {{ .connectInfo.sentinelPort | quote }}
+  REDIS_SENTINEL_USER_NAME: {{ .connectInfo.sentinelUsername | quote }}
+  REDIS_SENTINEL_PASSWORD: {{ .connectInfo.sentinelPassword | quote }}
+  REDIS_CONNECT_TYPE: {{ .connectType | quote }}
+  REDIS_DB: {{ .database | quote }}
+  {{- end }}

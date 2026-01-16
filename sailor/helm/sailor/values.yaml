@@ -1,0 +1,115 @@
+# 名称空间，服务都要在同一个空间。
+namespace: anyshare
+
+# 1 修改标签
+labels:
+  deployment:
+    name: af-sailor-deployment
+  pod:
+    app: af-sailor-pod
+  service:
+    app: af-sailor-service
+
+# 2 修改仓库服务的镜像地址：不同的项目记得修改repository中af后的项目名和tag
+image:
+  registry: acr.xxx.cn
+  repository: af/af-sailor
+  tag: "1.0.0-alpha"
+  pullPolicy: IfNotPresent
+
+#3 修改容器副本数量
+replicaCount: 1
+
+#4 修改deployment的名称
+name: af-sailor-deployment
+
+nodeSelector: []
+
+#需要暴露的端口号列表
+#containerPort容器需要监听的端口号
+#protocol端口协议，支持TCP和UDP，默认TCP
+ports:
+  name: server-port
+  containerPort: 9797
+
+# 修改service的名字、端口，nodePort是对外的端口。
+service:
+  name: af-sailor
+  type: ClusterIP
+  port: 9797
+  version: "1.0.0"
+  telemetry:
+    log:
+      enabled: true
+      endpoint: http://feed-ingester-service:13031/api/feed_ingester/v1/jobs/job-4d42d761dbf0ea95/events
+      level: info
+    trace:
+      enabled: true
+      endpoint: http://feed-ingester-service:13031/api/feed_ingester/v1/jobs/job-a2491f67d02e482c/events
+
+depServices:
+  class-443:
+    ingressClass: class-443
+  rds:
+    host: mariadb-mariadb-master.resource
+    port: 3330
+    user: anyshare
+    password: xxx
+    database: af_business
+  redis:
+    connectInfo:
+      masterGroupName: mymaster
+      password: xxx
+      sentinelHost: proton-redis-proton-redis-sentinel.resource
+      sentinelPassword: xxx
+      sentinelPort: 26379
+      sentinelUsername: root
+      username: root
+    connectType: sentinel
+    database: 0
+  opensearch:
+    read: "opensearch-read"
+    write: "opensearch-write"
+    host: "opensearch-master"
+    port: "9200"
+    user: "admin"
+    password: "xxx"
+  ad_opensearch:
+    read: "opensearch-read"
+    write: "opensearch-write"
+    host: "opensearch-master.resource"
+    port: "9200"
+    user: "admin"
+    password: "xxx"
+  anyDataConf:
+    protocol: https
+    host: 10.4.105.234
+    port: 8444
+    accountType: username
+    user: test
+    password: xxx
+    adVersion: 3.0.0.3
+  anyDataLLMConf:
+    llm_name: "Qwen1.5-72B-Chat"
+    table_completion_llm_name: "Qwen1.5-72B-Chat"
+    embedding_llm_addr: "http://10.4.118.205:8302"
+    recommend_llm_name: "L40-Qwen2-72B-Chat"
+  mq:
+    Host: kafka-external-31000.resource
+    Port: 9098
+    Type: "kafka"
+    auth:
+      username: kafkaclient
+      password: xxx
+      mechanism: "PLAIN"
+
+
+# 修改pod资源限制：cpu示例:0.5/500m/1/1000m;memory示例:512Mi/1Gi
+resources:
+  requests:
+    cpu: 4
+    memory: 8Gi
+  limits:
+    cpu: 6
+    memory: 16Gi
+

@@ -1,0 +1,209 @@
+{
+  "input_type": [
+    {
+      "name": "query",
+      "type": "str"
+    },
+    {
+      "name": "limit",
+      "type": "int"
+    },
+    {
+      "name": "stopwords",
+      "type": "list"
+    },
+    {
+      "name": "stop_entities",
+      "type": "list"
+    },
+    {
+      "name": "filter",
+      "type": "dict"
+    }
+  ],
+  "nodes": [
+    {
+      "type": "DAG",
+      "name": "GraphSynSearchDAG",
+      "input_type": [
+        {
+          "name": "query",
+          "type": "str"
+        },
+        {
+          "name": "limit",
+          "type": "int"
+        },
+        {
+          "name": "stopwords",
+          "type": "list"
+        },
+        {
+          "name": "stop_entities",
+          "type": "list"
+        },
+        {
+          "name": "filter",
+          "type": "dict"
+        }
+      ],
+      "props": [
+        {
+          "name": "GraphSynSearchExecutor",
+          "upstream_links": [
+            {
+              "current_input": "query",
+              "upstream_node": "_DAG",
+              "upstream_node_output": "query"
+            },
+            {
+              "current_input": "limit",
+              "upstream_node": "_DAG",
+              "upstream_node_output": "limit"
+            },
+            {
+              "current_input": "stopwords",
+              "upstream_node": "_DAG",
+              "upstream_node_output": "stopwords"
+            },
+            {
+              "current_input": "stop_entities",
+              "upstream_node": "_DAG",
+              "upstream_node_output": "stop_entities"
+            },
+            {
+              "current_input": "filter",
+              "upstream_node": "_DAG",
+              "upstream_node_output": "filter"
+            }
+          ],
+          "props": {
+            "kg_id": 2,
+            "result_types": [
+              "datacatalog"
+            ],
+            "entity2service": {
+              "datacatalog": {
+                "relation": "",
+                "service": "9d250f912d1d471a862565c4c8d2c943",
+                "weight": 4
+              },
+              "metadata_table": {
+                "relation": "编目",
+                "service": "aa191f81375c43ba909ee32ca5f6a136",
+                "weight": 1.9
+              },
+              "metadata_table_field": {
+                "relation": "包含",
+                "service": "8573af4c85334712987826b485728fb1",
+                "weight": 1.8
+              },
+              "data_explore_report": {
+                "relation": "包含",
+                "service": "66112557395940f98333efef22d7a6f4",
+                "weight": 1.7
+              },
+              "businessobject": {
+                "relation": "关联",
+                "service": "aa191f81375c43ba909ee32ca5f6a136",
+                "weight": 1.6
+              },
+              "catalogtag": {
+                "relation": "打标",
+                "service": "aa191f81375c43ba909ee32ca5f6a136",
+                "weight": 1.5
+              },
+              "dataowner": {
+                "relation": "管理",
+                "service": "aa191f81375c43ba909ee32ca5f6a136",
+                "weight": 1.4
+              },
+              "department": {
+                "relation": "管理",
+                "service": "aa191f81375c43ba909ee32ca5f6a136",
+                "weight": 1.3
+              },
+              "info_system": {
+                "relation": "关联",
+                "service": "aa191f81375c43ba909ee32ca5f6a136",
+                "weight": 1.2
+              },
+              "domain": {
+                "relation": "包含",
+                "service": "66112557395940f98333efef22d7a6f4",
+                "weight": 1
+              },
+              "metadataschema": {
+                "relation": "包含",
+                "service": "8573af4c85334712987826b485728fb1",
+                "weight": 1
+              },
+              "subdomain": {
+                "relation": "包含",
+                "service": "8573af4c85334712987826b485728fb1",
+                "weight": 1
+              },
+              "datasource": {
+                "relation": "包含",
+                "service": "66112557395940f98333efef22d7a6f4",
+                "weight": 1
+              }
+            },
+            "entity_weight": {
+              "businessobject": 1,
+              "catalogtag": 1,
+              "datacatalog": 2,
+              "dataowner": 1,
+              "datasource": 1,
+              "department": 1,
+              "domain": 1,
+              "info_system": 1,
+              "metadata_table": 1,
+              "metadataschema": 1,
+              "data_explore_report": 1,
+              "metadata_table_field": 1,
+              "subdomain": 1
+            },
+            "entity_limit": 1000,
+            "required_resource": {
+              "lexicon_actrie": {
+                "lexicon_id": "1"
+              },
+              "stopwords":{
+                "lexicon_id": "2"
+              }
+            }
+          }
+        }
+      ],
+      "upstream_links": [],
+      "outputs": [
+        {
+          "current_output": "count",
+          "upstream_node": "GraphSynSearchExecutor",
+          "upstream_node_output": "count"
+        },
+        {
+          "current_output": "entities",
+          "upstream_node": "GraphSynSearchExecutor",
+          "upstream_node_output": "entities"
+        },
+        {
+          "current_output": "answer",
+          "upstream_node": "GraphSynSearchExecutor",
+          "upstream_node_output": "answer"
+        },
+        {
+          "current_output": "subgraphs",
+          "upstream_node": "GraphSynSearchExecutor",
+          "upstream_node_output": "subgraphs"
+        },
+        {
+          "current_output": "query_cuts",
+          "upstream_node": "GraphSynSearchExecutor",
+          "upstream_node_output": "query_cuts"
+        }
+      ]
+    }
+  ]
+}
