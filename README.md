@@ -1,10 +1,14 @@
-# Data Resource Intelligence Platform
+# DIP for Data Resource
 
 [中文版本](README_CN.md)
 
 ## Project Overview
 
-Data Resource Intelligence Platform is an intelligent data resource management platform that provides comprehensive AI-driven capabilities for data discovery, understanding, and interaction. The platform integrates multiple services to provide cognitive search, natural language query processing, data comprehension, and intelligent recommendations.
+DIP for Data Resource is an AI application for data resources built on the DIP platform, focusing on two core scenarios: "Intelligent Data Discovery" and "Intelligent Data Querying". It helps organizations efficiently find, understand, and analyze data. The platform is committed to solving organizational problems of "poor data quality, difficulty in finding data, and difficulty in using data", and promoting the continuous release of data asset value.
+
+**Intelligent Data Querying**: Beyond BI, an enterprise-level data expert that understands business. Based on scenario analysis knowledge networks and industry engines, it creates data intelligence agents deeply embedded in business scenarios. With AI assistants, it meets the needs of business users for democratized, scenario-based, and exploratory data analysis, fully releasing data value and improving organizational productivity.
+
+**Intelligent Data Discovery**: Through natural language dialogue with the data discovery intelligent agent, the Agent can quickly find the required data resource catalog lists, summarize data content, and summarize application scenarios and other information, helping users quickly understand and locate required data. It helps enterprise users directly transition from the dilemma of "difficulty finding tables and slow understanding" to "findable, understandable, and usable".
 
 ## Project Structure
 
