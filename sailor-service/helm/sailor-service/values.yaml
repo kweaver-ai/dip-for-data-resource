@@ -1,15 +1,15 @@
 # 名称空间，服务都要在同一个空间。
 namespace: anyshare
-name: af-sailor-service
+name: sailor-service
 
 labels:
-  app: af-sailor-service-pod
+  app: sailor-service-pod
 
 replicaCount: 1
 
 image:
   registry: acr.xxx.cn
-  repository: af/af-sailor-service
+  repository: af/sailor-service
   tag: "1.0.0-feature-467763"
   pullPolicy: IfNotPresent
 
@@ -26,7 +26,7 @@ resources:
 nodeSelector: []
 
 service:
-  name: af-sailor-service
+  name: sailor-service
   type: ClusterIP
   port: 80
   oauthClientID: "109be1e1-72c0-4137-8484-813b14be5e21"
@@ -41,10 +41,10 @@ service:
       endpoint: "http://feed-ingester-service:13031/api/feed_ingester/v1/jobs/job-a2491f67d02e482c/events"
 
 
-apiPathPrefix: /api/af-sailor-service
+apiPathPrefix: /api/sailor-service
 
 configMap:
-  name: af-sailor-service
+  name: sailor-service
 
 ports:
   server:
@@ -99,7 +99,7 @@ depServices:
     port: 8133
   virtualizationEngine:
     protocol: http
-    host: af-vega-gateway
+    host: vega-gateway
     port: 8099
   bigModel:
     schema: http
@@ -135,11 +135,11 @@ depServices:
     port: 7000
   afSailor:
     schema: http
-    host: af-sailor
+    host: sailor
     port: 9797
   afSailorAgent:
     schema: http
-    host: af-sailor-agent
+    host: sailor-agent
     port: 9595
   userMgmPrivate:
     schema: http
@@ -147,7 +147,7 @@ depServices:
     port: 30980
   metaDataMgm:
     schema: http
-    host: af-vega-metadata
+    host: vega-metadata
     port: 80
   authService:
     schema: http

@@ -4,16 +4,16 @@ namespace: anyshare
 # 1 修改标签
 labels:
   deployment:
-    name: af-sailor-agent-deployment
+    name: sailor-agent-deployment
   pod:
-    app: af-sailor-agent-pod
+    app: sailor-agent-pod
   service:
-    app: af-sailor-agent-service
+    app: sailor-agent-service
 
 # 2 修改仓库服务的镜像地址：不同的项目记得修改repository中af后的项目名和tag
 image:
   registry: acr.xxx.cn
-  repository: af/af-sailor-agent
+  repository: af/sailor-agent
   tag: "1.0.0-alpha"
   pullPolicy: IfNotPresent
 
@@ -21,7 +21,7 @@ image:
 replicaCount: 1
 
 #4 修改deployment的名称
-name: af-sailor-agent-deployment
+name: sailor-agent-deployment
 
 nodeSelector: []
 
@@ -34,7 +34,7 @@ ports:
 
 # 修改service的名字、端口，nodePort是对外的端口。
 service:
-  name: af-sailor-agent
+  name: sailor-agent
   type: ClusterIP
   port: 9595
   version: "1.0.0"
