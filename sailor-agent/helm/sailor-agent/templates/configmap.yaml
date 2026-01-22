@@ -47,9 +47,9 @@ data:
   TEXT2SQL_MODEL_TYPE: {{ .depServices.agent.text2sql_model_type | quote}}
   TEXT2SQL_RECALL_TOP_K: {{ .depServices.agent.text2sql_recall_top_k | quote}}
   TEXT2SQL_REWRITE_QUERY: {{ .depServices.agent.text2sql_rewrite_query | quote}}
-  TOOL_LLM_MODEL_NAME: { { .depServices.agentConf.tool_llm_model_name | quote } }
-  TOOL_LLM_OPENAI_API_KEY: { { .depServices.agentConf.tool_llm_openai_api_key | quote } }
-  TOOL_LLM_OPENAI_API_BASE: { { .depServices.agentConf.tool_llm_openai_api_base | quote } }
+  TOOL_LLM_MODEL_NAME: { { .depServices.agent.tool_llm_model_name | quote } }
+  TOOL_LLM_OPENAI_API_KEY: { { .depServices.agent.tool_llm_openai_api_key | quote } }
+  TOOL_LLM_OPENAI_API_BASE: { { .depServices.agent.tool_llm_openai_api_base | quote } }
 
   {{- end }}
   {{- with .Values.depServices.redis }}
