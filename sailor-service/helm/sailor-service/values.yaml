@@ -106,8 +106,8 @@ depServices:
     host: 10.4.133.127
     port: 8083
   opensearch:
-    read-uri: opensearch-read:9200
-    write-uri: opensearch-write:9200
+    readUri: opensearch-read:9200
+    writeUri: opensearch-write:9200
     username: admin
     password: eisoo.com123
   openAI:

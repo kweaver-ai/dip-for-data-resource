@@ -82,8 +82,8 @@ data:
       authServiceHost: {{.Values.depServices.authService.schema}}://{{.Values.depServices.authService.host}}:{{.Values.depServices.authService.port}}
 
     opensearch:
-      readUri:  {{.Values.depServices.opensearch.read-uri}}
-      writeUri: {{.Values.depServices.opensearch.write-uri}}
+      readUri: {{.Values.depServices.opensearch.readUri}}
+      writeUri: {{.Values.depServices.opensearch.writeUri}}
       username: {{.Values.depServices.opensearch.username}}
       password: {{.Values.depServices.opensearch.password}}
       sniff: true
