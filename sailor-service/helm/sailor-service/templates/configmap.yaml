@@ -81,6 +81,18 @@ data:
       anyDataRecUrl: {{.Values.depServices.anyDataRec.schema}}://{{.Values.depServices.anyDataRec.host}}:{{.Values.depServices.anyDataRec.port}}
       authServiceHost: {{.Values.depServices.authService.schema}}://{{.Values.depServices.authService.host}}:{{.Values.depServices.authService.port}}
 
+    opensearch:
+      readUri:  {{.Values.depServices.opensearch.read-uri}}
+      writeUri: {{.Values.depServices.opensearch.write-uri}}
+      username: {{.Values.depServices.opensearch.username}}
+      password: {{.Values.depServices.opensearch.password}}
+      sniff: true
+      healthcheck: true
+      debug: true
+      highlight:
+        preTag: <span style="color:#FF6304;">
+        postTag: </span>
+
     openAI:
       apiKey: {{.Values.depServices.openAI.apiKey}}
       url: {{.Values.depServices.openAI.url}}
